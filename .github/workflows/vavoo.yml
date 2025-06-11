@@ -31,10 +31,10 @@ jobs:
         run: curl https://kerimmkirac-vavoo.hf.space/
 
       - name: Vavoo Tr
-        run: python vavoo.py
+        run: python Pythonlar/vavoo.py
 
       - name: Vavoo All
-        run: python vavooall.py
+        run: python Pythonlar/vavooall.py
 
       - name: Değişiklik kontrolü
         id: git-check
