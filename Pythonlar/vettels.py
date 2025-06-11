@@ -6,36 +6,38 @@ def load_m3u(file_path):
         return f.readlines()
 
 def parse_m3u(lines):
-    """M3U içeriğini sözlük olarak ayrıştır."""
+    """M3U içeriğini tvg-name'e göre ayrıştır."""
     channels = {}
     current_name = None
 
     for line in lines:
-        if line.startswith('#EXTINF'):
-            match = re.search(r',(.+)', line)
+        if "#EXTINF" in line:
+            match = re.search(r'tvg-name="([^"]+)"', line)
             if match:
                 current_name = match.group(1).strip()
-        elif line.startswith('http'):
+        elif line.startswith("http"):
             if current_name:
                 channels[current_name] = line.strip()
 
     return channels
 
 def update_channels(vettecl_file, vavoo_file, output_file):
-    """Vettel kanal listesini Vavoo'ya göre güncelle."""
+    """Vettel kanal listesini Vavoo'ya göre tvg-name bazında güncelle."""
     vettecl_data = parse_m3u(load_m3u(vettecl_file))
     vavoo_data = parse_m3u(load_m3u(vavoo_file))
 
     updated_lines = []
+    current_name = None
+
     for line in load_m3u(vettecl_file):
-        if line.startswith('#EXTINF'):
+        if "#EXTINF" in line:
             updated_lines.append(line)
-            match = re.search(r',(.+)', line)
+            match = re.search(r'tvg-name="([^"]+)"', line)
             if match:
                 current_name = match.group(1).strip()
-        elif line.startswith('http'):
+        elif line.startswith("http"):
             if current_name and current_name in vavoo_data:
-                updated_lines.append(vavoo_data[current_name] + '\n')
+                updated_lines.append(vavoo_data[current_name] + "\n")
             else:
                 updated_lines.append(line)
 
@@ -44,4 +46,4 @@ def update_channels(vettecl_file, vavoo_file, output_file):
 
 if __name__ == "__main__":
     update_channels("vettelchannel.m3u", "vavoo.m3u", "updated_vettelchannel.m3u")
-    print("Güncelleme tamamlandı! ✅")
+    print("✅ Güncelleme tamamlandı! Tvg-name bazında eşleşme yapıldı.")
