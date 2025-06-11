@@ -60,5 +60,5 @@ def update_channels(vettecl_file, vavoo_file, output_file="vettelchannel.m3u"):
         f.writelines(updated_lines)
 
 if __name__ == "__main__":
-    update_channels("vetteclchannel.m3u", "vavoo.m3u")
+    update_channels("vettelchannel.m3u", "vavoo.m3u")
     print("✅ Güncelleme tamamlandı! Yakın eşleşmeler baz alındı.")
