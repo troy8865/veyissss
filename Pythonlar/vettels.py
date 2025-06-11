@@ -23,7 +23,7 @@ def parse_m3u(lines):
 
 def update_channels(vettecl_file, vavoo_file, output_file):
     """Vettel kanal listesini Vavoo'ya göre güncelle."""
-    vettecl_data = parse_m3u(load_m3u(vettecl_file))
+    vettecl_data = parse_m3u(load_m3u(vettel_file))
     vavoo_data = parse_m3u(load_m3u(vavoo_file))
 
     updated_lines = []
@@ -43,5 +43,5 @@ def update_channels(vettecl_file, vavoo_file, output_file):
         f.writelines(updated_lines)
 
 if __name__ == "__main__":
-    update_channels("vetteclchannel.m3u", "vavoo.m3u", "updated_vetteclchannel.m3u")
+    update_channels("vettelchannel.m3u", "vavoo.m3u", "updated_vetteclchannel.m3u")
     print("Güncelleme tamamlandı! ✅")
