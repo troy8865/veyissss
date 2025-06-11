@@ -58,10 +58,10 @@ def parse_m3u(file_path):
 
 def update_kerim_m3u():
     yeni_kanallar = parse_m3u('yeni.m3u')
-    hedef_dosya = 'Kanallar/kerim.m3u'
+    hedef_dosya = 'vettel.m3u'
 
     if not os.path.exists(hedef_dosya):
-        print("kerim.m3u bulunamadı. Yeni oluşturuluyor...")
+        print("vettel.m3u bulunamadı. Yeni oluşturuluyor...")
         os.makedirs('Kanallar', exist_ok=True)
         with open(hedef_dosya, 'w', encoding='utf-8') as f:
             f.write("#EXTM3U\n")
