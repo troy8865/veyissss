@@ -30,7 +30,7 @@ jobs:
       
 
       - name: Rectv
-        run: python rectv.py
+        run: python Pythonlar/rectv.py
 
       
 
