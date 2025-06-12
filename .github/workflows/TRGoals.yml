@@ -28,13 +28,13 @@ jobs:
           pip install -U setuptools wheel Kekik httpx parsel requests
           
       - name: TRGoals.py Çalıştır
-        run: python TRGoals.py
+        run: python Pythonlar/TRGoals.py
 
       - name: TRGoal.py Çalıştır
-        run: python trgoal.py
+        run: python Pythonlar/trgoal.py
         
       - name: MonoTV.py Çalıştır
-        run: python MonoTV.py
+        run: python Pythonlar/MonoTV.py
         
       
 
@@ -53,11 +53,11 @@ jobs:
       
 
       - name: Daddylive
-        run: python daddylive.py
+        run: python Pythonlar/daddylive.py
 
       
       - name: Daddylive Events
-        run: python daddyliveevents.py
+        run: python Pythonlar/daddyliveevents.py
 
 
 
