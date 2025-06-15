@@ -31,6 +31,11 @@ NAME_CORRECTIONS = {
     "KOMEDİI": "KOMEDİ",
 }
 
+SPECIAL_GROUPS = {
+    "spor": "Spor",
+    "haber": "Haber"
+}
+
 def normalize_tvg_id(name):
     name_ascii = name.translate(TURKISH_CHAR_MAP)
     return re.sub(r'\W+', '_', name_ascii.strip()).upper()
@@ -52,7 +57,7 @@ def fetch_turkey_channels():
     for ch in turkey_channels:
         ch["name"] = fix_channel_name(ch.get("name", ""))
 
-    return turkey_channels  # Artık veri çekildiği sırada kalacak
+    return turkey_channels  # Veri çekildiği sıraya göre kalacak
 
 def generate_m3u(channels):
     grouped_channels = {}
@@ -62,10 +67,19 @@ def generate_m3u(channels):
         name = ch.get("name", "Unknown").strip()
         group_title = "Diğer"  # Varsayılan grup
 
-        for key, value in NAME_CORRECTIONS.items():
-            if value.lower() in name.lower():
+        # Önce özel gruplara (spor ve haber) bak
+        name_ascii = name.translate(TURKISH_CHAR_MAP).lower()
+        for key, value in SPECIAL_GROUPS.items():
+            if key in name_ascii:
                 group_title = value
-                break  # İlk eşleşen kelimeye göre grup belirleniyor
+                break
+
+        # Eğer özel gruplardan birine girmediyse, düzeltilmiş isimlerle eşleştir
+        if group_title == "Diğer":
+            for key, value in NAME_CORRECTIONS.items():
+                if value.lower() in name_ascii:
+                    group_title = value
+                    break
 
         if group_title not in grouped_channels:
             grouped_channels[group_title] = []
