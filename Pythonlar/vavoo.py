@@ -2,7 +2,7 @@ import requests
 import re
 
 URL = "https://vavoo.to/channels"
-PROXY_BASE = "https://vettelchannel-realvettelchannel.hf.space/proxy/m3u?url=https://vavoo.to/play/{}/index.m3u8"
+PROXY_BASE = "https://vettelchannelowner-vettel-channel.hf.space/proxy/m3u?url=https://vavoo.to/play/{}/index.m3u8"
 LOGO_URL = "https://raw.githubusercontent.com/vettelistrue/Vettel-Channel-M3U/refs/heads/main/Pythonlar/VETTEL.png"
 OUTPUT_FILE = "vavoo.m3u"
 
