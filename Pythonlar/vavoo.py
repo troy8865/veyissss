@@ -1,5 +1,6 @@
 import requests
 import re
+import difflib  # Benzer kelimeleri analiz etmek için kütüphane
 
 URL = "https://vavoo.to/channels"
 PROXY_BASE = "https://vettelchannelowner-vettel-channel.hf.space/proxy/m3u?url=https://vavoo.to/play/{}/index.m3u8"
@@ -16,18 +17,18 @@ TURKISH_CHAR_MAP = str.maketrans({
 })
 
 # Anahtar kelimelere göre kanal grupları
-GROUP_KEYWORDS = {
-    "spor": "Spor",
-    "haber": "Haber",
-    "sinema": "Sinema",
-    "çocuk": "Çocuk",
-    "müzik": "Müzik",
-    "belgesel": "Belgesel",
-    "yerli": "Yerli",
-    "eğlence": "Eğlence",
-    "komedi": "Komedi",
-    "aile": "Aile"
-}
+GROUP_KEYWORDS = [
+    "spor", "sports", "football", "basketball", "voleybol", "tenis",
+    "haber", "news", "gündem", "ajans",
+    "sinema", "film", "movie",
+    "çocuk", "kids", "cartoon",
+    "müzik", "music", "pop", "rock",
+    "belgesel", "documentary", "wildlife",
+    "yerli", "turkish", "yerel",
+    "eğlence", "fun", "show",
+    "komedi", "comedy",
+    "aile", "family"
+]
 
 def normalize_tvg_id(name):
     name_ascii = name.translate(TURKISH_CHAR_MAP)
@@ -35,6 +36,13 @@ def normalize_tvg_id(name):
 
 def fix_channel_name(name):
     return name.strip()
+
+def find_best_group(name):
+    """ Kanal ismine en yakın kategoriyi bulur """
+    name_ascii = name.translate(TURKISH_CHAR_MAP).lower()
+    best_match = difflib.get_close_matches(name_ascii, GROUP_KEYWORDS, n=1, cutoff=0.6)  # Eşleşme oranı %60 ve üzeri
+    
+    return best_match[0] if best_match else "Diğer"  # En iyi eşleşmeyi al, yoksa "Diğer" kategorisine ata
 
 def fetch_turkey_channels():
     response = requests.get(URL)
@@ -53,17 +61,10 @@ def fetch_turkey_channels():
 def generate_m3u(channels):
     grouped_channels = {}
 
-    # Kanal isimlerindeki anahtar kelimelere göre grupları belirle
+    # Kanal isimlerinden en iyi eşleşmeyi bularak grup belirleme
     for ch in channels:
         name = ch.get("name", "Unknown").strip()
-        name_ascii = name.translate(TURKISH_CHAR_MAP).lower()
-        group_title = "Diğer"  # Varsayılan grup
-
-        # Kanal isminde geçen anahtar kelimelere göre grup belirleme
-        for keyword, group in GROUP_KEYWORDS.items():
-            if keyword in name_ascii:
-                group_title = group
-                break  # İlk eşleşen kelimeye göre grup atanır
+        group_title = find_best_group(name)  # Benzerlik analizi ile grup belirleme
 
         if group_title not in grouped_channels:
             grouped_channels[group_title] = []
