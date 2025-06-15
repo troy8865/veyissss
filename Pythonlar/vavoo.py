@@ -15,34 +15,11 @@ TURKISH_CHAR_MAP = str.maketrans({
     'ü': 'u', 'Ü': 'U'
 })
 
-NAME_CORRECTIONS = {
-    "S NEMA": "SİNEMA",
-    "T RK": "TÜRK",
-    "M Z K": "MÜZİK",
-    "A LE": "AİLE",
-    "AKS YON": "AKSİYON",
-    "KOMED": "KOMEDİ",
-    "YERL": "YERLİ",
-    "KURD": "KURDİ",
-    "OCUK": "ÇOÇUK",
-    "CAY": "ÇAY",
-    "D Ğ N": "DOĞAN",
-    "VINC": "VINCI",
-    "KOMEDİI": "KOMEDİ",
-}
-
-SPECIAL_GROUPS = {
-    "spor": "Spor",
-    "haber": "Haber"
-}
-
 def normalize_tvg_id(name):
     name_ascii = name.translate(TURKISH_CHAR_MAP)
     return re.sub(r'\W+', '_', name_ascii.strip()).upper()
 
 def fix_channel_name(name):
-    for wrong, correct in NAME_CORRECTIONS.items():
-        name = re.sub(wrong, correct, name, flags=re.IGNORECASE)
     return name.strip()
 
 def fetch_turkey_channels():
@@ -56,30 +33,16 @@ def fetch_turkey_channels():
 
     for ch in turkey_channels:
         ch["name"] = fix_channel_name(ch.get("name", ""))
-
-    return turkey_channels  # Veri çekildiği sıraya göre kalacak
+    
+    return turkey_channels  # API'den gelen sıralamayı koruyoruz
 
 def generate_m3u(channels):
     grouped_channels = {}
 
-    # Kanal isimlerindeki düzeltmelere göre grupları belirle
+    # API'deki grup bilgisine göre kanalları kategorize et
     for ch in channels:
         name = ch.get("name", "Unknown").strip()
-        group_title = "Diğer"  # Varsayılan grup
-
-        # Önce özel gruplara (spor ve haber) bak
-        name_ascii = name.translate(TURKISH_CHAR_MAP).lower()
-        for key, value in SPECIAL_GROUPS.items():
-            if key in name_ascii:
-                group_title = value
-                break
-
-        # Eğer özel gruplardan birine girmediyse, düzeltilmiş isimlerle eşleştir
-        if group_title == "Diğer":
-            for key, value in NAME_CORRECTIONS.items():
-                if value.lower() in name_ascii:
-                    group_title = value
-                    break
+        group_title = ch.get("category", "Diğer")  # API'den gelen kategori bilgisi alınıyor
 
         if group_title not in grouped_channels:
             grouped_channels[group_title] = []
