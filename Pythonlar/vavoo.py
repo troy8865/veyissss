@@ -15,6 +15,20 @@ TURKISH_CHAR_MAP = str.maketrans({
     'ü': 'u', 'Ü': 'U'
 })
 
+# Anahtar kelimelere göre kanal grupları
+GROUP_KEYWORDS = {
+    "spor": "Spor",
+    "haber": "Haber",
+    "sinema": "Sinema",
+    "çocuk": "Çocuk",
+    "müzik": "Müzik",
+    "belgesel": "Belgesel",
+    "yerli": "Yerli",
+    "eğlence": "Eğlence",
+    "komedi": "Komedi",
+    "aile": "Aile"
+}
+
 def normalize_tvg_id(name):
     name_ascii = name.translate(TURKISH_CHAR_MAP)
     return re.sub(r'\W+', '_', name_ascii.strip()).upper()
@@ -33,16 +47,23 @@ def fetch_turkey_channels():
 
     for ch in turkey_channels:
         ch["name"] = fix_channel_name(ch.get("name", ""))
-    
+
     return turkey_channels  # API'den gelen sıralamayı koruyoruz
 
 def generate_m3u(channels):
     grouped_channels = {}
 
-    # API'deki grup bilgisine göre kanalları kategorize et
+    # Kanal isimlerindeki anahtar kelimelere göre grupları belirle
     for ch in channels:
         name = ch.get("name", "Unknown").strip()
-        group_title = ch.get("category", "Diğer")  # API'den gelen kategori bilgisi alınıyor
+        name_ascii = name.translate(TURKISH_CHAR_MAP).lower()
+        group_title = "Diğer"  # Varsayılan grup
+
+        # Kanal isminde geçen anahtar kelimelere göre grup belirleme
+        for keyword, group in GROUP_KEYWORDS.items():
+            if keyword in name_ascii:
+                group_title = group
+                break  # İlk eşleşen kelimeye göre grup atanır
 
         if group_title not in grouped_channels:
             grouped_channels[group_title] = []
