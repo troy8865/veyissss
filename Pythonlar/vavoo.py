@@ -52,49 +52,42 @@ def fetch_turkey_channels():
     for ch in turkey_channels:
         ch["name"] = fix_channel_name(ch.get("name", ""))
 
-    def sort_key(ch):
-        name = ch.get("name", "")
-        name_ascii = name.translate(TURKISH_CHAR_MAP).lower()
-
-        if "bein sports" in name_ascii:
-            priority = 0
-        elif "spor" in name_ascii:
-            priority = 1
-        else:
-            priority = 2
-
-        return (priority, name_ascii)
-
-    return sorted(turkey_channels, key=sort_key)
+    return turkey_channels  # Artık veri çekildiği sırada kalacak
 
 def generate_m3u(channels):
-    
-    spor_channels = [ch for ch in channels if "spor" in ch.get("name", "").lower()]
-    genel_channels = [ch for ch in channels if "spor" not in ch.get("name", "").lower()]
+    grouped_channels = {}
 
-    spor_count = len(spor_channels)
-    genel_count = len(genel_channels)
+    # Kanal isimlerindeki düzeltmelere göre grupları belirle
+    for ch in channels:
+        name = ch.get("name", "Unknown").strip()
+        group_title = "Diğer"  # Varsayılan grup
+
+        for key, value in NAME_CORRECTIONS.items():
+            if value.lower() in name.lower():
+                group_title = value
+                break  # İlk eşleşen kelimeye göre grup belirleniyor
+
+        if group_title not in grouped_channels:
+            grouped_channels[group_title] = []
+
+        grouped_channels[group_title].append(ch)
 
     with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
         f.write("#EXTM3U\n")
-        for ch in channels:
-            name = ch.get("name", "Unknown").strip()
-            tvg_id = normalize_tvg_id(name)
-            proxy_url = PROXY_BASE.format(ch.get("id"))
+        for group, channels in grouped_channels.items():
+            kanal_count = len(channels)
+            for ch in channels:
+                name = ch.get("name", "Unknown").strip()
+                tvg_id = normalize_tvg_id(name)
+                proxy_url = PROXY_BASE.format(ch.get("id"))
 
-            
-            if "spor" in name.lower():
-                group_title = f"Spor ({spor_count})"
-            else:
-                group_title = f"Genel Kanallar ({genel_count})"
+                f.write(
+                    f'#EXTINF:-1 tvg-name="{name}" tvg-language="Türkçe" '
+                    f'tvg-country="Türkiye" tvg-id="{tvg_id}" tvg-logo="{LOGO_URL}" '
+                    f'group-title="{group} ({kanal_count})",{name}\n{proxy_url}\n'
+                )
 
-            f.write(
-                f'#EXTINF:-1 tvg-name="{name}" tvg-language="Türkçe" '
-                f'tvg-country="Türkiye" tvg-id="{tvg_id}" tvg-logo="{LOGO_URL}" '
-                f'group-title="{group_title}",{name}\n{proxy_url}\n'
-            )
-
-    print(f"{len(channels)} Tane kanal bulundu → '{OUTPUT_FILE}' dosyasına yazıldı.")
+    print(f"{len(channels)} kanal bulundu → '{OUTPUT_FILE}' dosyasına yazıldı.")
 
 if __name__ == "__main__":
     turkey_channels = fetch_turkey_channels()
