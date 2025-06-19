@@ -19,8 +19,6 @@ def mevcut_kanallari_oku(dosya_adi="kablo.m3u"):
         return set()
 
 def get_canli_tv_m3u():
-    """M3U dosyasını güncellerken mevcut kanalları korur"""
-
  url = "https://core-api.kablowebtv.com/api/channels"
     headers = {
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36",
