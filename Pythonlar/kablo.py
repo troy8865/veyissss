@@ -2,26 +2,12 @@ import requests
 import json
 import gzip
 from io import BytesIO
-
-def mevcut_kanallari_oku(dosya_adi="kablo.m3u"):
-    """Mevcut M3U dosyasındaki kanalları okur ve bir sete kaydeder"""
-    try:
-        with open(dosya_adi, "r", encoding="utf-8") as f:
-            m3u_icerik = f.readlines()
-        
-        eski_kanallar = set()
-        for satir in m3u_icerik:
-            if satir.startswith("http"):  # Sadece URL satırlarını al
-                eski_kanallar.add(satir.strip())
-        
-        return eski_kanallar
-    except FileNotFoundError:
-        return set()
+import os
 
 def get_canli_tv_m3u():
- url = "https://core-api.kablowebtv.com/api/channels"
+    url = "https://core-api.kablowebtv.com/api/channels"
     headers = {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36",
+        "User-Agent": "Mozilla/5.0",
         "Referer": "https://tvheryerde.com",
         "Origin": "https://tvheryerde.com",
         "Cache-Control": "max-age=0",
@@ -31,7 +17,7 @@ def get_canli_tv_m3u():
     }
 
     try:
-        print("📡 API'den veri alınıyor...")
+        print("📡 CanliTV API'den veri alınıyor...")
         response = requests.get(url, headers=headers, timeout=30)
         response.raise_for_status()
 
@@ -42,54 +28,50 @@ def get_canli_tv_m3u():
             content = response.content.decode('utf-8')
 
         data = json.loads(content)
-
-        if not data.get("IsSucceeded") or not data.get("Data", {}).get("AllChannels"):
-            print("❌ Geçerli veri alınamadı!")
+        if not data.get('IsSucceeded') or not data.get('Data', {}).get('AllChannels'):
+            print("❌ API'den geçerli veri alınamadı!")
             return False
-        
-        kanallar = data["Data"]["AllChannels"]
-        print(f"✅ {len(kanallar)} yeni kanal bulundu")
 
-        # Mevcut kanalları oku ve listeye ekle
-        eski_kanallar = mevcut_kanallari_oku()
+        channels = data['Data']['AllChannels']
+        print(f"✅ {len(channels)} kanal bulundu")
+
+        existing_lines = []
+        existing_names = set()
+        if os.path.exists("kablo.m3u"):
+            with open("kablo.m3u", "r", encoding="utf-8") as f:
+                existing_lines = f.readlines()
+                for line in existing_lines:
+                    if line.startswith("#EXTINF:") and ',' in line:
+                        name = line.split(',')[-1].strip()
+                        existing_names.add(name)
 
         with open("kablo.m3u", "w", encoding="utf-8") as f:
-            f.write("#EXTM3U\n")
-            kanal_sayisi = 0
-            kanal_index = 1  
+            if not any("#EXTM3U" in line for line in existing_lines):
+                f.write("#EXTM3U\n")
 
-            for kanal in kanallar:
-                name = kanal.get("Name")
-                stream_data = kanal.get("StreamData", {})
-                hls_url = stream_data.get("HlsStreamUrl") if stream_data else None
-                logo = kanal.get("PrimaryLogoImageUrl", "")
-                categories = kanal.get("Categories", [])
+            for line in existing_lines:
+                f.write(line)
 
-                if not name or not hls_url:
+            yeni_kanal_sayisi = 0
+            for index, channel in enumerate(channels, start=1):
+                name = channel.get('Name')
+                stream_data = channel.get('StreamData', {})
+                hls_url = stream_data.get('HlsStreamUrl')
+                logo = channel.get('PrimaryLogoImageUrl', '')
+                categories = channel.get('Categories', [])
+                group = categories[0].get('Name', 'Genel') if categories else 'Genel'
+
+                if not name or not hls_url or group == "Bilgilendirme":
                     continue
 
-                group = categories[0].get("Name", "Genel") if categories else "Genel"
+                if name in existing_names:
+                    continue  # Zaten eklenmişse atla
 
-                if group == "Bilgilendirme":
-                    continue
-
-                tvg_id = str(kanal_index)
-
-                # Eğer kanal zaten mevcut listede varsa ekleme
-                if hls_url in eski_kanallar:
-                    continue
-
-                f.write(f'#EXTINF:-1 tvg-id="{tvg_id}" tvg-logo="{logo}" group-title="{group}",{name}\n')
+                f.write(f'#EXTINF:-1 tvg-id="{index}" tvg-logo="{logo}" group-title="{group}",{name}\n')
                 f.write(f'{hls_url}\n')
+                yeni_kanal_sayisi += 1
 
-                kanal_sayisi += 1
-                kanal_index += 1  
-
-            # Önceden eklenen kanalları tekrar ekleyelim
-            for eski_kanal in eski_kanallar:
-                f.write(f"{eski_kanal}\n")
-
-        print(f"📺 Güncellenmiş kablo.m3u dosyası oluşturuldu! ({kanal_sayisi + len(eski_kanallar)} kanal)")
+        print(f"📺 kablo.m3u dosyası güncellendi! (+{yeni_kanal_sayisi} yeni kanal eklendi)")
         return True
 
     except Exception as e:
