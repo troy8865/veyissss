@@ -7,7 +7,7 @@ import os
 def get_canli_tv_m3u():
     url = "https://core-api.kablowebtv.com/api/channels"
     headers = {
-        "User-Agent": "Mozilla/5.0",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36",
         "Referer": "https://tvheryerde.com",
         "Origin": "https://tvheryerde.com",
         "Cache-Control": "max-age=0",
