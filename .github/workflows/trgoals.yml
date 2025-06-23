@@ -30,7 +30,7 @@ jobs:
 
     - name: M3U Dosyasını Güncelle
       run: |
-        python trgoals_guncelleyici.py # Python scriptinin dosya adını buraya yaz
+        python Pythonlar/trgoals.py # Python scriptinin dosya adını buraya yaz
 
     - name: Değişiklikleri Git'e Kaydet (Commit)
       run: |
