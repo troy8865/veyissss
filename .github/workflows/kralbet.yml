@@ -1,0 +1,32 @@
+name: Günlük Kralbet M3U Güncelleme
+
+on:
+  schedule:
+    - cron: '0 6 * * *'  # Her gün sabah 06:00'da çalışır
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Depoyu çek
+        uses: actions/checkout@v4
+
+      - name: Python kurulumu
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Gereksinimleri yükle
+        run: pip install requests beautifulsoup4
+
+      - name: Betiği çalıştır
+        run: python Pythonlar/kralbet.py
+
+      - name: Değişiklikleri commit et ve pushla
+        run: |
+          git config user.name "KralBot"
+          git config user.email "bot@kralbet.com"
+          git add kralbet.m3u
+          git commit -m "🔄 Otomatik M3U güncellemesi"
+          git push
