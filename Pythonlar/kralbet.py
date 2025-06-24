@@ -1,34 +1,56 @@
 import requests
 from bs4 import BeautifulSoup
 
-BASE_URL = "https://1029kralbettv.com"
-headers = {
-    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)",
-    "Referer": BASE_URL
-}
+def m3u_olustur():
+    try:
+        # Kaynak URL'yi al
+        kaynak_url = "https://royalvipcanlimac.com/channels.php"
+        proxy_url = f"https://vettelchannelowner-kralbet.hf.space/proxy/m3u?url={kaynak_url}"
+        
+        # Sayfayı çek
+        print("Sayfa çekiliyor...")
+        response = requests.get(proxy_url, timeout=10)
+        response.raise_for_status()
+        
+        # HTML'i parse et
+        soup = BeautifulSoup(response.text, 'html.parser')
+        
+        # M3U başlığını hazırla
+        m3u_icerik = "#EXTM3U\n"
+        
+        print("Kanal bilgileri işleniyor...")
+        # Tüm kanalları bul
+        for kanal in soup.find_all('div', class_='channel'):
+            # Kanal adını al
+            isim_div = kanal.find('div', class_='home')
+            if not isim_div:
+                continue
+                
+            kanal_adi = isim_div.get_text(strip=True)
+            
+            # Linki al
+            link = kanal.find('a', href=True)
+            if not link:
+                continue
+            link = link['href']
+            
+            # Tam URL'yi oluştur
+            tam_url = f"https://1029kralbettv.com{link}"
+            
+            # M3U'ya ekle
+            m3u_icerik += f'#EXTINF:-1 tvg-name="{kanal_adi}",{kanal_adi}\n'
+            m3u_icerik += f"{tam_url}\n"
+            
+        # Dosyaya yaz
+        with open('kralbet.m3u', 'w', encoding='utf-8') as dosya:
+            dosya.write(m3u_icerik)
+            
+        print("M3U dosyası başarıyla oluşturuldu!")
+        return True
+        
+    except Exception as hata:
+        print(f"Hata oluştu: {str(hata)}")
+        return False
 
-# Ana sayfadan channel?id= linklerini topla
-response = requests.get(BASE_URL, headers=headers)
-soup = BeautifulSoup(response.text, 'html.parser')
-
-channel_links = set()  # DEĞİŞKEN BURADA TANIMLANIYOR
-
-for a in soup.find_all("a", href=True):
-    href = a["href"]
-    if href.startswith("/channel?id="):
-        full_link = BASE_URL + href
-        channel_links.add(full_link)
-
-print(f"{len(channel_links)} adet channel linki bulundu.")
-
-print("Kralbet.m3u dosyasına yazılıyor...")
-
-with open("kralbet.m3u", "w", encoding="utf-8") as f:
-    f.write("#EXTM3U\n\n")
-    for idx, link in enumerate(sorted(channel_links), 1):
-        f.write(f"#EXTINF:-1 tvg-name=\"Kralbet Kanal {idx}\" group-title=\"KRALBET\",Kralbet Kanal {idx}\n")
-        f.write(f"#EXTVLCOPT:http-user-agent={headers['User-Agent']}\n")
-        f.write(f"#EXTVLCOPT:http-referrer={headers['Referer']}\n")
-        f.write(link + "\n\n")
-
-print(f"{len(channel_links)} kanal kralbet.m3u dosyasına yazıldı.")
+if __name__ == "__main__":
+    m3u_olustur()
