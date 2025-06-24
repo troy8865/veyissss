@@ -9,10 +9,10 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Depoyu çek
+      - name: Depoyu klonla
         uses: actions/checkout@v4
 
-      - name: Python kurulumu
+      - name: Python Kurulumu
         uses: actions/setup-python@v5
         with:
           python-version: '3.10'
@@ -21,14 +21,15 @@ jobs:
         run: pip install requests beautifulsoup4
 
       - name: Betiği çalıştır
-        run: python Pythonlar/kralbet.py
+        run: python kralbet.py
 
-         - name: Değişiklikleri commit et ve pushla
+      - name: Değişiklikleri commit et ve pushla
         env:
           GH_PAT: ${{ secrets.GH_PAT }}
         run: |
-        git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config user.name "KralBot"
+          git config user.email "bot@kralbet.com"
+          git remote set-url origin https://x-access-token:${GH_PAT}@github.com/vettelistrue/Vettel-Channel-M3U.git
           git add kralbet.m3u
-          git commit -m "🔄 Otomatik M3U güncellemesi" || echo "No changes"
+          git commit -m "🔄 Otomatik M3U güncellemesi" || echo "No changes to commit"
           git push origin HEAD:main
