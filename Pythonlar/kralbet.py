@@ -1,5 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
+import re
 
 headers = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)",
@@ -9,21 +10,16 @@ headers = {
 url = "https://1029kralbettv.com"
 
 response = requests.get(url, headers=headers)
-soup = BeautifulSoup(response.text, "html.parser")
+soup = BeautifulSoup(response.text, 'html.parser')
 
-# M3U8 bağlantılarını bul
-m3u8_links = []
-for link in soup.find_all("a", href=True):
-    href = link["href"]
-    if ".m3u8" in href:
-        name = link.get_text(strip=True) or "Kral Kanal"
-        m3u8_links.append((name, href))
+# Sayfadaki tüm m3u8 linklerini topla
+m3u8_links = re.findall(r'(https?://[^\s"]+\.m3u8)', response.text)
 
-# .m3u dosyasına yaz
 with open("kralbet.m3u", "w", encoding="utf-8") as f:
-    f.write("#EXTM3U\n")
-    for name, link in m3u8_links:
-        f.write(f"#EXTINF:-1,{name}\n")
+    for idx, link in enumerate(m3u8_links, 1):
+        f.write(f"#EXTINF:-1 tvg-name=\"Kralbet Kanal {idx}\" group-title=\"KRALBET\",Kralbet Kanal {idx}\n")
         f.write(f"#EXTVLCOPT:http-user-agent={headers['User-Agent']}\n")
         f.write(f"#EXTVLCOPT:http-referrer={headers['Referer']}\n")
-        f.write(f"{link}\n")
+        f.write(link + "\n")
+
+print(f"{len(m3u8_links)} adet m3u8 linki kralbet.m3u dosyasına yazıldı.")
