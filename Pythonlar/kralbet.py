@@ -41,8 +41,8 @@ def m3u_olustur():
         
         for kanal in kanallar:
             try:
-                # Kanal adını bulmak için alternatif yollar
-                isim = (kanal.find(class_=re.compile(r'home|title|name', re.I)) or \
+                # Kanal adını bulmak için alternatif yollar (DÜZELTİLDİ)
+                isim = kanal.find(class_=re.compile(r'home|title|name', re.I)) or \
                        kanal.find(['h2', 'h3', 'h4', 'div', 'span'])
                 
                 if not isim:
@@ -51,9 +51,9 @@ def m3u_olustur():
                 kanal_adi = isim.get_text(strip=True)
                 
                 # Linki bulmak için alternatif yollar
-                link = (kanal.find('a', href=True) or 
-                       kanal.find('iframe', src=True) or
-                       kanal.find('link', href=True))
+                link = kanal.find('a', href=True) or \
+                      kanal.find('iframe', src=True) or \
+                      kanal.find('link', href=True)
                 
                 if not link:
                     continue
