@@ -23,10 +23,13 @@ jobs:
       - name: Betiği çalıştır
         run: python Pythonlar/kralbet.py
 
-      - name: Değişiklikleri commit et ve pushla
+         - name: Değişiklikleri commit et ve pushla
+        env:
+          GH_PAT: ${{ secrets.GH_PAT }}
         run: |
           git config user.name "KralBot"
           git config user.email "bot@kralbet.com"
+          git remote set-url origin https://x-access-token:${GH_PAT}@github.com/vettelistrue/Vettel-Channel-M3U.git
           git add kralbet.m3u
-          git commit -m "🔄 Otomatik M3U güncellemesi"
-          git push
+          git commit -m "🔄 Otomatik M3U güncellemesi" || echo "No changes"
+          git push origin HEAD:main
