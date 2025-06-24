@@ -21,7 +21,7 @@ jobs:
         run: pip install requests beautifulsoup4
 
       - name: Betiği çalıştır
-        run: python kralbet.py
+        run: python Pythonlar/kralbet.py
 
       - name: Değişiklikleri commit et ve pushla
         env:
