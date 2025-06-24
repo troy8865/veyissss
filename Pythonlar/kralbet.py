@@ -1,26 +1,27 @@
 import requests
 from bs4 import BeautifulSoup
 
-BASE_URL = "https://1029kralbettv.com"
+SOURCE_URL = "https://royalvipcanlimac.com/channels.php"
+CHANNEL_BASE = "https://1029kralbettv.com"
 headers = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)",
-    "Referer": BASE_URL
+    "Referer": CHANNEL_BASE
 }
 
-# 1. Ana sayfayı çek
-response = requests.get(BASE_URL, headers=headers)
-soup = BeautifulSoup(response.text, 'html.parser')
+# 1. Kaynak sayfayı çek
+resp = requests.get(SOURCE_URL, headers=headers)
+soup = BeautifulSoup(resp.text, "html.parser")
 
-# 2. channel?id=... linklerini topla
+# 2. channel?id=... linklerini bul
 channel_links = set()
 
 for a in soup.find_all("a", href=True):
     href = a["href"]
     if href.startswith("/channel?id="):
-        full_link = BASE_URL + href
+        full_link = CHANNEL_BASE + href
         channel_links.add(full_link)
 
-print(f"{len(channel_links)} adet channel linki bulundu.")
+print(f"{len(channel_links)} kanal bulundu.")
 
 # 3. kralbet.m3u dosyasına yaz
 with open("kralbet.m3u", "w", encoding="utf-8") as f:
