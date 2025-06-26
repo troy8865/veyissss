@@ -24,7 +24,7 @@ jobs:
         run: pip install pyyaml
 
       - name: Scripti çalıştır
-        run: python Pythonlar/vettel.py
+        run: python Pythonlar/vetteltv.py
 
       - name: Değişiklikleri commit et
         run: |
