@@ -7,29 +7,24 @@ PROXY_PREFIX = "https://vettelchannelowner-kralbet.hf.space/proxy/m3u?url="
 LINK_PREFIX = "https://1029kralbettv.com"
 M3U_FILE = "kralbet.m3u"
 
-# HTML'yi al
-response = requests.get(PROXY_PREFIX + BASE_URL)
-html = response.text
+r = requests.get(PROXY_PREFIX + BASE_URL)
+soup = BeautifulSoup(r.text, "html.parser")
 
-# BeautifulSoup ile parse et
-soup = BeautifulSoup(html, "html.parser")
 channels = soup.find_all("a", href=re.compile(r"channel\?id="))
 titles = soup.find_all("div", class_="home")
+images = soup.find_all("img", src=True)
 
-with open(M3U_FILE, "w", encoding="utf-8") as file:
-    file.write("#EXTM3U\n")
-
+with open(M3U_FILE, "w", encoding="utf-8") as f:
+    f.write("#EXTM3U\n\n")
     for idx, channel in enumerate(channels):
-        href = channel["href"]
-        channel_id = href.split("id=")[-1]
+        href = channel.get("href")
+        kanal_id = href.split("id=")[-1]
+        tvg_name = titles[idx].text.strip() if idx < len(titles) else f"Kanal_{idx}"
+        logo_url = f"{LINK_PREFIX}/{images[idx]['src'].lstrip('/')}" if idx < len(images) else ""
         stream_url = f"{PROXY_PREFIX}{LINK_PREFIX}/{href}"
 
-        # tvg-name'i <div class="home"> içinden al
-        tvg_name = titles[idx].text.strip() if idx < len(titles) else f"Channel {idx+1}"
-        file.write(f'#EXTINF:-1 tvg-name="{tvg_name}",{tvg_name}\n{stream_url}\n')
-
-    # img src'leri al ve yaz (isteğe bağlı)
-    images = soup.find_all("img", src=True)
-    for img in images:
-        img_url = f"{LINK_PREFIX}/{img['src'].lstrip('/')}"
-        file.write(f"#EXTINF:-1,Logo\n{img_url}\n")
+        f.write(
+            f'#EXTINF:-1 tvg-name="{tvg_name}" tvg-language="Türkçe" tvg-country="Türkiye" '
+            f'tvg-id="{kanal_id}" tvg-logo="{logo_url}" group-title="Genel Kanallar",{tvg_name}\n'
+        )
+        f.write(f"{stream_url}\n\n")
