@@ -23,10 +23,10 @@ jobs:
       - name: kralbet.m3u dosyasını oluştur
         run: python Pythonlar/kralbet.py
 
-      - name: Değişiklikleri push'la
-        run: |
-          git config user.name "GitHub Actions"
-          git config user.email "actions@github.com"
-          git add kralbet.m3u
-          git commit -m "Güncel kralbet.m3u"
-          git push
+ - name: Değişiklikleri push'la
+  run: |
+    git config user.name "GitHub Actions"
+    git config user.email "actions@github.com"
+    git add kralbet.m3u
+    git diff --cached --quiet || git commit -m "Güncel kralbet.m3u"
+    git push
