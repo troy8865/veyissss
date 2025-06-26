@@ -1,33 +1,39 @@
-name: Generate kralbet.m3u
+name: Kralbet M3U Güncelleme
 
 on:
   schedule:
-    - cron: '*/30 * * * *'  # Her 30 dakikada bir
+    - cron: '0 12 * * *'  # Her gün saat 12:00 (UTC)
   workflow_dispatch:
+  push:
+    paths:
+      - Pythonlar/kralbet.py
 
 jobs:
-  generate-m3u:
+  update-m3u:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Repo'yu klonla
-        uses: actions/checkout@v4
+      - name: Repo'yu Klonla
+        uses: actions/checkout@v3
 
-      - name: Python kurulumu
-        uses: actions/setup-python@v5
+      - name: Python Kur
+        uses: actions/setup-python@v4
         with:
-          python-version: '3.x'
+          python-version: '3.11'
 
-      - name: Gereksinimleri yükle
-        run: pip install requests
-
-      - name: kralbet.m3u dosyasını oluştur
+      - name: Bağımlılıkları Kur
+        run: |
+          pip install requests beautifulsoup4
+      - name: kralbet.py Scriptini Çalıştır
         run: python Pythonlar/kralbet.py
 
-      - name: Değişiklikleri push'la
-        continue-on-error: true
+      - name: Değişiklikleri Commit Et ve Pushla
+        env:
+          GH_PAT: ${{ secrets.GH_PAT }}
         run: |
-         git config user.name "GitHub Actions"
-         git config user.email "actions@github.com"
-         git add kralbet.m3u
-         git commit -m "Güncel kralbet.m3u" || echo "Commit edilecek değişiklik yok"
-         git push
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "actions@github.com"
+          git remote set-url origin https://x-access-token:${GH_PAT}@github.com/${{ github.repository }}
+          git add kralbet.m3u
+          git commit -m "🔄 Otomatik m3u güncelleme" || echo "No changes"
+          git push || echo "No changes to push"
