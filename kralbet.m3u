@@ -1,67 +1,67 @@
 #EXTM3U
-#EXTINF:-1,channel?id=yayinzirve
+#EXTINF:-1 tvg-name="BEIN SPORTS 1",BEIN SPORTS 1
 https://vettelchannelowner-kralbet.hf.space/proxy/m3u?url=https://1029kralbettv.com/channel?id=yayinzirve
-#EXTINF:-1,channel?id=yayinb2
+#EXTINF:-1 tvg-name="BEIN SPORTS 2",BEIN SPORTS 2
 https://vettelchannelowner-kralbet.hf.space/proxy/m3u?url=https://1029kralbettv.com/channel?id=yayinb2
-#EXTINF:-1,channel?id=yayinb3
+#EXTINF:-1 tvg-name="BEIN SPORTS 3",BEIN SPORTS 3
 https://vettelchannelowner-kralbet.hf.space/proxy/m3u?url=https://1029kralbettv.com/channel?id=yayinb3
-#EXTINF:-1,channel?id=yayinb4
+#EXTINF:-1 tvg-name="BEIN SPORTS 4",BEIN SPORTS 4
 https://vettelchannelowner-kralbet.hf.space/proxy/m3u?url=https://1029kralbettv.com/channel?id=yayinb4
-#EXTINF:-1,channel?id=yayinb5
+#EXTINF:-1 tvg-name="BEIN SPORTS 5",BEIN SPORTS 5
 https://vettelchannelowner-kralbet.hf.space/proxy/m3u?url=https://1029kralbettv.com/channel?id=yayinb5
-#EXTINF:-1,channel?id=yayinbm1
+#EXTINF:-1 tvg-name="BEIN SPORTS MAX 1",BEIN SPORTS MAX 1
 https://vettelchannelowner-kralbet.hf.space/proxy/m3u?url=https://1029kralbettv.com/channel?id=yayinbm1
-#EXTINF:-1,channel?id=yayinbm2
+#EXTINF:-1 tvg-name="BEIN SPORTS MAX 2",BEIN SPORTS MAX 2
 https://vettelchannelowner-kralbet.hf.space/proxy/m3u?url=https://1029kralbettv.com/channel?id=yayinbm2
-#EXTINF:-1,channel?id=yayinss
+#EXTINF:-1 tvg-name="S SPORT",S SPORT
 https://vettelchannelowner-kralbet.hf.space/proxy/m3u?url=https://1029kralbettv.com/channel?id=yayinss
-#EXTINF:-1,channel?id=yayinss2
+#EXTINF:-1 tvg-name="S SPORT 2",S SPORT 2
 https://vettelchannelowner-kralbet.hf.space/proxy/m3u?url=https://1029kralbettv.com/channel?id=yayinss2
-#EXTINF:-1,channel?id=yayinsmarts
+#EXTINF:-1 tvg-name="SMART SPOR",SMART SPOR
 https://vettelchannelowner-kralbet.hf.space/proxy/m3u?url=https://1029kralbettv.com/channel?id=yayinsmarts
-#EXTINF:-1,channel?id=yayinsms2
+#EXTINF:-1 tvg-name="SMART SPOR 2",SMART SPOR 2
 https://vettelchannelowner-kralbet.hf.space/proxy/m3u?url=https://1029kralbettv.com/channel?id=yayinsms2
-#EXTINF:-1,channel?id=yayint1
+#EXTINF:-1 tvg-name="TIVIBU SPOR 1",TIVIBU SPOR 1
 https://vettelchannelowner-kralbet.hf.space/proxy/m3u?url=https://1029kralbettv.com/channel?id=yayint1
-#EXTINF:-1,channel?id=yayint2
+#EXTINF:-1 tvg-name="TIVIBU SPOR 2",TIVIBU SPOR 2
 https://vettelchannelowner-kralbet.hf.space/proxy/m3u?url=https://1029kralbettv.com/channel?id=yayint2
-#EXTINF:-1,channel?id=yayint3
+#EXTINF:-1 tvg-name="TIVIBU SPOR 3",TIVIBU SPOR 3
 https://vettelchannelowner-kralbet.hf.space/proxy/m3u?url=https://1029kralbettv.com/channel?id=yayint3
-#EXTINF:-1,channel?id=yayint4
+#EXTINF:-1 tvg-name="TIVIBU SPOR 4",TIVIBU SPOR 4
 https://vettelchannelowner-kralbet.hf.space/proxy/m3u?url=https://1029kralbettv.com/channel?id=yayint4
-#EXTINF:-1,channel?id=yayintrtspor
+#EXTINF:-1 tvg-name="TRT SPOR",TRT SPOR
 https://vettelchannelowner-kralbet.hf.space/proxy/m3u?url=https://1029kralbettv.com/channel?id=yayintrtspor
-#EXTINF:-1,channel?id=yayintrtspor2
+#EXTINF:-1 tvg-name="TRT SPOR YILDIZ",TRT SPOR YILDIZ
 https://vettelchannelowner-kralbet.hf.space/proxy/m3u?url=https://1029kralbettv.com/channel?id=yayintrtspor2
-#EXTINF:-1,channel?id=yayintrt1
+#EXTINF:-1 tvg-name="TRT 1",TRT 1
 https://vettelchannelowner-kralbet.hf.space/proxy/m3u?url=https://1029kralbettv.com/channel?id=yayintrt1
-#EXTINF:-1,channel?id=yayinas
+#EXTINF:-1 tvg-name="A SPOR",A SPOR
 https://vettelchannelowner-kralbet.hf.space/proxy/m3u?url=https://1029kralbettv.com/channel?id=yayinas
-#EXTINF:-1,channel?id=yayinatv
+#EXTINF:-1 tvg-name="ATV",ATV
 https://vettelchannelowner-kralbet.hf.space/proxy/m3u?url=https://1029kralbettv.com/channel?id=yayinatv
-#EXTINF:-1,channel?id=yayintv8
+#EXTINF:-1 tvg-name="TV 8",TV 8
 https://vettelchannelowner-kralbet.hf.space/proxy/m3u?url=https://1029kralbettv.com/channel?id=yayintv8
-#EXTINF:-1,channel?id=yayintv85
+#EXTINF:-1 tvg-name="TV 8,5",TV 8,5
 https://vettelchannelowner-kralbet.hf.space/proxy/m3u?url=https://1029kralbettv.com/channel?id=yayintv85
-#EXTINF:-1,channel?id=yayinnbatv
+#EXTINF:-1 tvg-name="NBA TV",NBA TV
 https://vettelchannelowner-kralbet.hf.space/proxy/m3u?url=https://1029kralbettv.com/channel?id=yayinnbatv
-#EXTINF:-1,channel?id=yayinf1
+#EXTINF:-1 tvg-name="SKY SPORTS F1",SKY SPORTS F1
 https://vettelchannelowner-kralbet.hf.space/proxy/m3u?url=https://1029kralbettv.com/channel?id=yayinf1
-#EXTINF:-1,channel?id=yayineu1
+#EXTINF:-1 tvg-name="EURO SPORT 1",EURO SPORT 1
 https://vettelchannelowner-kralbet.hf.space/proxy/m3u?url=https://1029kralbettv.com/channel?id=yayineu1
-#EXTINF:-1,channel?id=yayineu2
+#EXTINF:-1 tvg-name="EURO SPORT 2",EURO SPORT 2
 https://vettelchannelowner-kralbet.hf.space/proxy/m3u?url=https://1029kralbettv.com/channel?id=yayineu2
-#EXTINF:-1,channel?id=yayinex7
+#EXTINF:-1 tvg-name="TABII SPOR",TABII SPOR
 https://vettelchannelowner-kralbet.hf.space/proxy/m3u?url=https://1029kralbettv.com/channel?id=yayinex7
-#EXTINF:-1,channel?id=yayinex1
+#EXTINF:-1 tvg-name="TABII SPOR 1",TABII SPOR 1
 https://vettelchannelowner-kralbet.hf.space/proxy/m3u?url=https://1029kralbettv.com/channel?id=yayinex1
-#EXTINF:-1,channel?id=yayinex2
+#EXTINF:-1 tvg-name="TABII SPOR 2",TABII SPOR 2
 https://vettelchannelowner-kralbet.hf.space/proxy/m3u?url=https://1029kralbettv.com/channel?id=yayinex2
-#EXTINF:-1,channel?id=yayinex3
+#EXTINF:-1 tvg-name="TABII SPOR 3",TABII SPOR 3
 https://vettelchannelowner-kralbet.hf.space/proxy/m3u?url=https://1029kralbettv.com/channel?id=yayinex3
-#EXTINF:-1,channel?id=yayinex4
+#EXTINF:-1 tvg-name="TABII SPOR 4",TABII SPOR 4
 https://vettelchannelowner-kralbet.hf.space/proxy/m3u?url=https://1029kralbettv.com/channel?id=yayinex4
-#EXTINF:-1,channel?id=yayinex5
+#EXTINF:-1 tvg-name="TABII SPOR 5",TABII SPOR 5
 https://vettelchannelowner-kralbet.hf.space/proxy/m3u?url=https://1029kralbettv.com/channel?id=yayinex5
 #EXTINF:-1,Logo
 https://1029kralbettv.com/img/tv.png
