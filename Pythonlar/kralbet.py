@@ -19,15 +19,17 @@ with open(M3U_FILE, "w", encoding="utf-8") as f:
     f.write("#EXTM3U\n\n")
     for idx, channel in enumerate(channels):
         href = channel.get("href")
-        stream_url = f"{KRAL_BET}/{href}"
-
-        # 👇 ENGELLEME: Eğer stream_url 'channel?id=' içeriyorsa atla
-        if "channel?id=" in stream_url:
-            continue
-
         kanal_id = href.split("id=")[-1]
         tvg_name = titles[idx].text.strip() if idx < len(titles) else f"Kanal_{idx}"
         logo_url = f"{LINK_PREFIX}/{images[idx]['src'].lstrip('/')}" if idx < len(images) else ""
+
+        # ✅ channel?id= kısmını çıkar
+        if "channel?id=" in href:
+            cleaned_href = href.split("id=")[-1]  # sadece ID kısmını al
+        else:
+            cleaned_href = href
+
+        stream_url = f"{KRAL_BET}/{cleaned_href}"
 
         f.write(
             f'#EXTINF:-1 tvg-name="{tvg_name}" tvg-language="Türkçe" tvg-country="Türkiye" '
