@@ -2,6 +2,7 @@ import requests
 import re
 from bs4 import BeautifulSoup
 
+KRAL_BET = "https://lll.istekbet3.tv"
 BASE_URL = "https://royalvipcanlimac.com/channels.php"
 PROXY_PREFIX = "https://vettelchannelowner-kralbet.hf.space/proxy/m3u?url="
 LINK_PREFIX = "https://1029kralbettv.com"
@@ -21,7 +22,7 @@ with open(M3U_FILE, "w", encoding="utf-8") as f:
         kanal_id = href.split("id=")[-1]
         tvg_name = titles[idx].text.strip() if idx < len(titles) else f"Kanal_{idx}"
         logo_url = f"{LINK_PREFIX}/{images[idx]['src'].lstrip('/')}" if idx < len(images) else ""
-        stream_url = f"{LINK_PREFIX}/{href}"
+        stream_url = f"{KRAL_BET}/{href}"
 
         f.write(
             f'#EXTINF:-1 tvg-name="{tvg_name}" tvg-language="Türkçe" tvg-country="Türkiye" '
