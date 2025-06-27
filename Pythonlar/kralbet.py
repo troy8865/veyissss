@@ -21,7 +21,7 @@ with open(M3U_FILE, "w", encoding="utf-8") as f:
         href = channel.get("href")
         if "channel?id=" in href:
             kanal_id = href.split("id=")[-1]  # Sadece ID alınır
-            stream_url = f"{PROXY_PREFIX}/{KRAL_BET}/{kanal_id}.m3u8"  # .m3u8 uzantısı eklenir
+            stream_url = f"{PROXY_PREFIX}{KRAL_BET}/{kanal_id}.m3u8"  # .m3u8 uzantısı eklenir
         else:
             continue  # Beklenmeyen format varsa atla
 
