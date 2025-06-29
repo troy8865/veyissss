@@ -2,8 +2,9 @@ name: TRGoals M3U Güncelleyici
 
 on:
   schedule:
-    # Her 3 saatte bir çalışır (örn: 00:00, 03:00, 06:00, ..., 21:00 UTC)
-    - cron: '0 */1 * * *'  # Her 1 saatte bir çalışır
+
+    - cron: '0 */1 * * *'  
+    # Her 1 saatte bir çalışır
   workflow_dispatch:
     # Bu, GitHub arayüzünden manuel olarak çalıştırmana olanak tanır.
 
