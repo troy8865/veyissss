@@ -35,8 +35,8 @@ jobs:
 
     - name: Değişiklikleri Git'e Kaydet (Commit)
       run: |
-        git config user.name 'github-actions[bot]'
-        git config user.email 'github-actions[bot]@users.noreply.github.com'
+        git config user.name 'GitHub Actions Bot'
+        git config user.email 'actions@github.com'
         git add trgoals.m3u
         git commit -am "Otomatik: TRGoals M3U güncellendi" || echo "Değişiklik yok, commit atlanıyor."
         git push
