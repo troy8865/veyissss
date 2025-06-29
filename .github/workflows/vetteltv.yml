@@ -1,7 +1,8 @@
-name: Vettel Tv M3U Güncelleme Botu
+name: M3U Güncelleme Botu
 
 on:
-
+  push:
+    branches: [ "main" ]
   workflow_dispatch:
   schedule:
     - cron: '0 */1 * * *'  # Her 1 saatte bir çalışır
@@ -27,8 +28,8 @@ jobs:
 
       - name: Değişiklikleri commit et
         run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config user.name "GitHub Actions Bot"
+          git config user.email "actions@github.com"
           git add vetteltv.m3u
-          git commit -m "Vettel Tv M3U Güncellendi " -m "🕒 Otomatik işlem - $GITHUB_SHA"
+          git commit -m "Otomatik M3U güncellemesi"
           git push
