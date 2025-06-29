@@ -1,8 +1,7 @@
 name: Vettel Tv M3U Güncelleme Botu
 
 on:
-  push:
-    branches: [ "main" ]
+
   workflow_dispatch:
   schedule:
     - cron: '0 */1 * * *'  # Her 1 saatte bir çalışır
