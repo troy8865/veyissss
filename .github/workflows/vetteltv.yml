@@ -5,7 +5,7 @@ on:
     branches: [ "main" ]
   workflow_dispatch:
   schedule:
-    - cron: "0 3 * * *"  # Her gün saat 03:00'te çalışır (UTC)
+    - cron: '0 */1 * * *'  # Her 1 saatte bir çalışır
 
 jobs:
   guncelle:
