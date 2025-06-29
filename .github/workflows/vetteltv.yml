@@ -27,8 +27,8 @@ jobs:
 
       - name: Değişiklikleri commit et
         run: |
-          git config user.name "GitHub Actions Bot"
-          git config user.email "actions@github.com"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add vetteltv.m3u
-          git commit -m "Otomatik M3U güncellemesi"
+          git commit -m "Vettel Tv M3U Güncellendi " -m "🕒 Otomatik işlem - $GITHUB_SHA"
           git push
